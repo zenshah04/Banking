@@ -1,0 +1,90 @@
+DROP TABLE CUSTOMERDETAILS CASCADE CONSTRAINTS;
+DROP TABLE ACCOUNTDETAILS CASCADE CONSTRAINTS;
+DROP TABLE ADMIN CASCADE CONSTRAINTS;
+DROP TABLE TRANSACTION;
+DROP TABLE APPROVAL;
+DROP TABLE PAYEE;
+Create table CustomerDetails(CustId int PRIMARY KEY, Title varchar2(50),FirstName varchar2(50), MiddleName varchar2(50), LastName varchar2(50),MobileNumber varchar2(10), 
+                      Email varchar2(50), AadharNumber int, DOB date, InitialAmount float, OccupationType varchar2(50), IncomeSource varchar2(50), 
+                      GrossAnnualIncome varchar2(20), DebitCard varchar2(2), OptNetBanking varchar2(2), FatherName varchar2(50),Line1 varchar2(100),Line2 varchar2(100),Landmark varchar2(100), State Varchar2(50), City varchar2(50), Pincode number); 
+
+
+Create table AccountDetails(Cid number PRIMARY KEY, AccountNumber number UNIQUE NOT NULL, UserId Varchar2(20), CreatedOn date, AccountStatus varchar2(1), AccountLock varchar2(1), LoginPassword varchar2(50), TransactionPassword varchar2(50), AccountType varchar2(20), CurrentBalance Decimal(15,2), CustId int references CustomerDetails (CustId));
+
+Create table Payee( BeneficiaryId int PRIMARY KEY, AccountNumber int references AccountDetails (AccountNumber) , BAccountNumber  int references AccountDetails (AccountNumber ), Nickname varchar2(20), BeneficiaryName varchar2(50 ) );
+
+Create table Admin ( AdminId int PRIMARY KEY, AdminPassword varchar2(20));
+
+Create table Approval( ApprovalId int primary key, CustId int references CustomerDetails(CustId), SRN int, AdminId int references Admin(AdminId) );
+
+Create table Transaction(TransactionId int PRIMARY KEY, ModeOfTransaction varchar2(20), ToAccount int references AccountDetails (AccountNumber) , FromAccount int references AccountDetails (AccountNumber) , AmountTransferred Decimal, Remarks varchar2(20), TransactionDate date);
+
+
+
+insert into CustomerDetails values (100,'Mr','Ashwin ',' ','Rajput',9945968130,'ashwin@gmail.com',12345678,'13_OCT-1999',100000,'Govt. Employee','Salary','2 to 5 Lac','Y','Y','Rajput','B-10','JVPD','Juhu Tara Road','Maharashtra','Mumbai',400097);
+insert into CustomerDetails values (101,'Mr','Zenil','J','Shah',959738993,'shahzenil4@gmail.com',1235,'19-Nov-2000',50000,'Private','Salary','< 2 Lac','N','Y','Gandhi','803', 'Daffodil','Near DHL','Maharashtra','Pune',450982);
+insert into CustomerDetails values (102,'Ms','Akash',' ','Mishra',9945920345,'amaparichit98@gmail.com',1236,'11-Jul-1999',150000,'Self Employee','Salary','2 to 5 Lac','N','Y','Manoj','A-15 ', 'OPP VIKHROLI FIRE STATION', 'GHATKOPAR','MAHARASHTRA', 'MUMBAI',400067);
+insert into CustomerDetails values (103,'Ms','Nivi',' ','Mehta',8557735430,'arnivethitha99@gmail.com',1237,'22-DEC-2000',80000,'Others','Others','Above 5 lac','Y','Y','Harpreet Sheth','C/52', 'C-OO7 KAILASH HEIGHT', 'BEHIND PETROL PUMP','MAHARASHTRA', 'MUMBAI',432567);
+insert into CustomerDetails values (104,'Mr','Karthik',' ','Sharma',8900119641,'karthik2@gmail.com',1238,'09-Jan-2000',95000,'Govt. Employee','Salary','2 to 5 Lac','N','Y','Karan Sharma','D/34','RUSTOMJEE HEIGHTS', 'OPP NL COLLEGE','MAHARASHTRA','MUMBAI',400051);
+insert into CustomerDetails values (105,'Mr','priyanka',' ','Seth',8792235210,'shethpriyanka1@gmail.com',1239,'18-May-1999',70000,'Private','Salary','< 2 Lac','Y','Y','Sathish','1309','MAHAVIR NAGAR', 'OPP DOMINOS','TAMIL NADU', 'CHENNAI',600005);
+insert into CustomerDetails values (106,'Mr','Dev',' ','Patil',7541905897,'dev@gmail.com',1240,'16-Dec-1999',125000,'Self Employee','Salary','2 to 5 Lac','Y','Y','Patil','Flat no 45','AnnadNagar','opposite to Market','NewDelhi','Delhi',600040);
+insert into CustomerDetails values (107,'Mr','Raja','Ganesh','Krishna',7848014890,'rajak@gmail.com',1241,'21-May-1998',90000,'Others','Others','Above 5 lac','N','Y','Ganesh','A-09','Skyheight Apartment','Near Ganpati Temple','Karnataka','Mangalore',575098);
+insert into CustomerDetails values (108,'Ms','Vaishanvi',' ','Daber',9980901032,'vaishnavid@yahoo.com',1242,'22-Nov-2000',65000,'Govt. Employee','Salary','2 to 5 Lac','Y','Y','Mukul Daber','Flat-101','Deva, Sector 2','Near HDFC bank','Maharashtra','Mumbai',468889);
+insert into CustomerDetails values (111,'Miss','Isha',' ','Bajaj',8217815679,'ishag01199@gmail.com',1243,'24-Apr-1999',100000,'Self Employee','Salary','2 to 5 Lac','N','Y','Karthik Bajaj','No 10 XYZ ','Subhash Nagar','Near BMC Hospital','Delhi','Sarojini',110027);
+insert into CustomerDetails values (112,'Mr','Harshit','J','Gandhi',959738993,'harshitverma408@gmail.com',1235,'19-Nov-2000',50000,'Private','Salary','< 2 Lac','N','Y','Gandhi','803', 'Daffodil','Near DHL','Maharashtra','Pune',450982);
+
+
+
+insert into AccountDetails values(1,10001,'isha','03-APR-2004','Y','N','Isha@Gupta3105','T1','SAVINGS',100000,111);
+insert into AccountDetails values(2,10002,'zenil','16-MAY-2003','Y','N','zenil@3507','T2','SAVINGS',156626,101);
+insert into AccountDetails values(3,10003,'akash','01-Jan-2002','Y','N','akashbhat@manoj4','T3','SAVINGS',150000,102);
+insert into AccountDetails values(4,10004,'nive','16-FEB-2003','Y','N','nivedeh@212','T4','SAVINGS',80000,103);
+insert into AccountDetails values(5,10005,'karthik','12-July-2021','Y','N','karth@09','T5','SAVINGS',410255,104);
+insert into AccountDetails values(6,10006,'priyanka','03-APR-2004','Y','N','priyanka@ath','T6','SAVINGS',1450000,105);
+insert into AccountDetails values(7,10007,'dev','15-Mar-2021','Y','N','Dev@67','T7','SAVINGS',125000,106);
+insert into AccountDetails values(8,10008,'Raj','03-APR-2004','Y','N','RajK@Kapoor23','T8','SAVINGS',90000,107);
+insert into AccountDetails values(9,10009,'Riya','12-June-2021','Y','N','Riya@Turakiya','T9','SAVINGS',2000082,108);
+insert into AccountDetails values(11,10011,'harshit','16-MAY-2003','Y','N','harshit@3507','T11','SAVINGS',156616,112);
+
+Insert into Payee Values(10,10001,10002,'ZENIL','ZENIL SHAH');
+Insert into Payee Values(20,10001,10006,'PRIYANKA','PRIYANKA SHETH');
+Insert into Payee Values(30,10003,10001,'ISHA','ISHA GUPTA');
+Insert into Payee Values(40,10003,10003,'AKASH','AKASH MISHRA');
+Insert into Payee Values(50,10008,10004,'NIVE','NIVEDITHA');
+
+Insert into Admin values( 55599, 'Admin@123');
+
+
+
+insert into Approval values (1100,100,11,55599);
+insert into Approval values (1101,101,12,55599);
+insert into Approval values (1102,102,13,55599);
+insert into Approval values (1103,103,14,55599);
+insert into Approval values (1104,104,15,55599);
+insert into Approval values (1105,105,16,55599);
+insert into Approval values (1106,106,17,55599);
+insert into Approval values (1107,107,18,55599);
+insert into Approval values (1108,108,19,55599);
+
+
+
+
+Insert into Transaction values(1900,'NEFT',10002,10001,45900,'SUCCESS','16-June-2021');
+Insert into Transaction values(2000,'NEFT',10004,10003,15000,'SUCCESS','15-June-2021');
+Insert into Transaction values(1600,'NEFT',10006,10005,2600,'SUCCESS','09-June-2020');
+Insert into Transaction values(1500,'IMPS',10008,10007,25590,'SUCCESS','21-June-2020');
+Insert into Transaction values(1200,'RTGS',10005,10003,45900,'SUCCESS','18-Sep-2020');
+Insert into Transaction values(2100,'IMPS',10006,10004,10190,'SUCCESS','21-Mar-2020');
+Insert into Transaction values(2300,'NEFT',10009,10008,5000,'SUCCESS','16-Jan-2021');
+Insert into Transaction values(2500,'RTGS',10008,10003,50560,'SUCCESS','26-June-2021');
+Insert into Transaction values(2700,'IMPS',10006,10004,70000,'SUCCESS','11-March-2021');
+
+
+commit;
+
+select * from customerdetails;
+select * from accountdetails;
+select * from payee;
+select * from admin;
+select * from approval;
+select * from transaction;
